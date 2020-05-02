@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Meta", "Meta", "{8B18503C-5A97-437E-B68D-B3C177919228}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{69B06FCA-53A0-4A5C-BEB8-8D51BB612028}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{919E9DD4-8466-458D-961C-4E4F77E8BE4E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMS.Web", "src\RMS.Web\RMS.Web.csproj", "{E1225016-125B-4584-8CBA-0A2CE99D5A94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMS.Application", "src\RMS.Aplication\RMS.Application.csproj", "{E53CE263-DB99-4D3F-8406-EBE873E4C770}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMS.Core", "src\RMS.Core\RMS.Core.csproj", "{9D0C1AE2-5F21-472F-B534-FAF4C6E6B8C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMS.Messages", "src\RMS.Messages\RMS.Messages.csproj", "{B15E212F-8D48-4225-8445-7D0614C8A518}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMS.Persistence.Ef", "src\RMS.Persistence.Ef\RMS.Persistence.Ef.csproj", "{ACCC1DD3-BE0B-4251-B8DB-953E07AC1A47}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1225016-125B-4584-8CBA-0A2CE99D5A94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1225016-125B-4584-8CBA-0A2CE99D5A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1225016-125B-4584-8CBA-0A2CE99D5A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1225016-125B-4584-8CBA-0A2CE99D5A94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E53CE263-DB99-4D3F-8406-EBE873E4C770}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E53CE263-DB99-4D3F-8406-EBE873E4C770}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E53CE263-DB99-4D3F-8406-EBE873E4C770}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E53CE263-DB99-4D3F-8406-EBE873E4C770}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D0C1AE2-5F21-472F-B534-FAF4C6E6B8C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D0C1AE2-5F21-472F-B534-FAF4C6E6B8C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D0C1AE2-5F21-472F-B534-FAF4C6E6B8C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D0C1AE2-5F21-472F-B534-FAF4C6E6B8C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B15E212F-8D48-4225-8445-7D0614C8A518}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B15E212F-8D48-4225-8445-7D0614C8A518}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B15E212F-8D48-4225-8445-7D0614C8A518}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B15E212F-8D48-4225-8445-7D0614C8A518}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACCC1DD3-BE0B-4251-B8DB-953E07AC1A47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACCC1DD3-BE0B-4251-B8DB-953E07AC1A47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACCC1DD3-BE0B-4251-B8DB-953E07AC1A47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACCC1DD3-BE0B-4251-B8DB-953E07AC1A47}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{69B06FCA-53A0-4A5C-BEB8-8D51BB612028} = {8B18503C-5A97-437E-B68D-B3C177919228}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {158BB957-4B66-42CB-B39A-8D2C3A600759}
+	EndGlobalSection
+EndGlobal

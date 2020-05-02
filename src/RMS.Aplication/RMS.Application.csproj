@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\EntityFramework.6.4.0\build\EntityFramework.props" Condition="Exists('..\..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E53CE263-DB99-4D3F-8406-EBE873E4C770}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Validata.DevOpsIntegrationTool.Aplication</RootNamespace>
+    <AssemblyName>Aplication</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentValidation.8.6.2\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ComponentModel.Annotations.4.4.1\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\RequestBC\AddRequest.cs" />
+    <Compile Include="Commands\RequestBC\AddRequestStatus.cs" />
+    <Compile Include="Commands\RequestBC\DeleteRequest.cs" />
+    <Compile Include="Commands\RequestBC\DeleteRequestStatus.cs" />
+    <Compile Include="Commands\RequestBC\Handlers\AddRequestHandler.cs" />
+    <Compile Include="Commands\RequestBC\Handlers\AddRequestStatusHandler.cs" />
+    <Compile Include="Commands\RequestBC\Handlers\DeleteRequestHandler.cs" />
+    <Compile Include="Commands\RequestBC\Handlers\DeleteRequestStatusHandler.cs" />
+    <Compile Include="Commands\RequestBC\Handlers\UpdateRequestHandler.cs" />
+    <Compile Include="Commands\RequestBC\Handlers\UpdateRequestStatusHandler.cs" />
+    <Compile Include="Commands\RequestBC\UpdateRequest.cs" />
+    <Compile Include="Commands\RequestBC\UpdateRequestStatus.cs" />
+    <Compile Include="Commands\RequestBC\Validators\AddRequestValidator.cs" />
+    <Compile Include="Commands\RequestBC\Validators\AddRequestStatusValidator.cs" />
+    <Compile Include="Commands\RequestBC\Validators\DeleteRequestValidator.cs" />
+    <Compile Include="Commands\RequestBC\Validators\DeleteRequestStatusValidator.cs" />
+    <Compile Include="Commands\RequestBC\Validators\UpdateRequestValidator.cs" />
+    <Compile Include="Commands\RequestBC\Validators\UpdateRequestStatusValidator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\MapDomainToQueryResult.cs" />
+    <Compile Include="Queries\RequestBC\GetRequest.cs" />
+    <Compile Include="Queries\RequestBC\GetRequestStatus.cs" />
+    <Compile Include="Queries\RequestBC\GetRequests.cs" />
+    <Compile Include="Queries\RequestBC\GetRequestStatuses.cs" />
+    <Compile Include="Queries\RequestBC\Handlers\GetRequestStatusesHandler.cs" />
+    <Compile Include="Queries\RequestBC\Handlers\GetRequestStatusHandler.cs" />
+    <Compile Include="Queries\RequestBC\Handlers\GetRequestsHandler.cs" />
+    <Compile Include="Queries\RequestBC\Handlers\GetRequestHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RMS.Core\RMS.Core.csproj">
+      <Project>{9d0c1ae2-5f21-472f-b534-faf4c6e6b8c9}</Project>
+      <Name>RMS.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RMS.Messages\RMS.Messages.csproj">
+      <Project>{b15e212f-8d48-4225-8445-7d0614c8a518}</Project>
+      <Name>RMS.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RMS.Persistence.Ef\RMS.Persistence.Ef.csproj">
+      <Project>{accc1dd3-be0b-4251-b8db-953e07ac1a47}</Project>
+      <Name>RMS.Persistence.Ef</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.4.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.4.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.4.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\EntityFramework.6.4.0\build\EntityFramework.targets" Condition="Exists('..\..\packages\EntityFramework.6.4.0\build\EntityFramework.targets')" />
+</Project>

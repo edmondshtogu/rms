@@ -1,0 +1,59 @@
+﻿@model RMS.Core.PaginatedItemsResult<RMS.Application.Queries.RequestBC.GetRequestResult>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>Requests</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Raised Date
+        </th>
+        <th>
+            Due Date
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Data)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.RaisedDate.ToString("dd-MM-yyyy HH:mm"))
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DueDate.ToString("dd-MM-yyyy HH:mm"))
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.StatusName)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+        @Html.ActionLink("Download", "Download", new { id = item.Id })
+    </td>
+</tr>
+    }
+
+</table>
