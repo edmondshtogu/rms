@@ -20,6 +20,9 @@ namespace RMS.Core
         {
             var config = new AppConfig();
 
+            var storagePath = section.SelectSingleNode("storagePath");
+            config.StoragePath = GetString(storagePath, "value");
+
             var provider = GetString(section.SelectSingleNode("dataProvider"), "value");
             switch (provider.ToLowerInvariant())
             {
@@ -36,6 +39,14 @@ namespace RMS.Core
 
             return config;
         }
+
+        /// <summary>
+        /// Data provider
+        /// </summary>
+        /// <value>
+        /// The data provider.
+        /// </value>
+        public string StoragePath { get; set; }
 
 
         /// <summary>

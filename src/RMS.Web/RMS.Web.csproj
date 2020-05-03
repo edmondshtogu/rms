@@ -186,6 +186,9 @@
     <Compile Include="App_Start\FontAwesomeBundleConfig.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Mapping\MapCommandsAndQueries.cs" />
+    <Compile Include="Internal\UploadDownloadService.cs" />
+    <Compile Include="Internal\IUploadDownloadService.cs" />
     <Compile Include="Models\UpdateRequestViewModel.cs" />
     <Compile Include="Models\CreateRequestViewModel.cs" />
     <Compile Include="Models\DatatablesViewModel.cs" />

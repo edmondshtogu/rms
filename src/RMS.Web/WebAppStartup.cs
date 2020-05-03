@@ -28,6 +28,7 @@ namespace RequestsManagementSystem
             {
                 c.MaxPageSizeAllowed = 100;
             });
+            engine.AddUploadDownloadService();
         }
     }
 }

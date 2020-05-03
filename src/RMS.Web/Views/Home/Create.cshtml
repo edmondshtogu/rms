@@ -7,7 +7,7 @@
 <h3>Create</h3>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -60,8 +60,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.AddRequestCommand.Attachments, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.AddRequestCommand.Attachments, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AddRequestCommand.Attachments, "", new { @class = "text-danger" })
+            @Html.TextBoxFor(model => model.AttachmentFile, new { type = "file", accept = "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" })
         </div>
     </div>
 

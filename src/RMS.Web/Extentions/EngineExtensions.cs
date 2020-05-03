@@ -2,6 +2,7 @@
 using Autofac.Integration.Mvc;
 using AutoMapper;
 using FluentValidation;
+using RequestsManagementSystem.Internal;
 using RequestsManagementSystem.Mapping;
 using RequestsManagementSystem.Validations;
 using RMS.Core;
@@ -96,6 +97,14 @@ namespace RequestsManagementSystem.Extentions
             {
                 builder.RegisterInstance(config.CreateMapper()).As<IMapper>().SingleInstance();
                 builder.RegisterType<AutoMapperTypeAdapter>().As<ITypeAdapter>().SingleInstance();
+            });
+        }
+
+        public static void AddUploadDownloadService(this IEngine engine)
+        {
+            engine.Register(builder =>
+            {
+                builder.RegisterType<UploadDownloadService>().As<IUploadDownloadService>().InstancePerLifetimeScope();
             });
         }
     }

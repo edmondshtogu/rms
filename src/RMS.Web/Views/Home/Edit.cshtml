@@ -7,73 +7,73 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h3>Request</h3>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.UpdateRequestCommand.Id)
+    <div class="form-horizontal">
+        <h3>Request</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.UpdateRequestCommand.Id)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.UpdateRequestCommand.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.UpdateRequestCommand.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.Name, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.UpdateRequestCommand.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UpdateRequestCommand.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UpdateRequestCommand.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UpdateRequestCommand.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UpdateRequestCommand.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UpdateRequestCommand.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UpdateRequestCommand.RaisedDate, "Raised Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UpdateRequestCommand.RaisedDate, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                @Html.ValidationMessageFor(model => model.UpdateRequestCommand.RaisedDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UpdateRequestCommand.DueDate, "Due Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UpdateRequestCommand.DueDate, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+                @Html.ValidationMessageFor(model => model.UpdateRequestCommand.DueDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UpdateRequestCommand.StatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.UpdateRequestCommand.StatusId, new SelectList(
+                    Model.RequestStatuses, "Id", "Description", Model.SelectedRequestStatus),
+                    new { @class = "form-control" })
+
+                @Html.ValidationMessageFor(model => model.UpdateRequestCommand.StatusId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UpdateRequestCommand.Attachments, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.UpdateRequestCommand.Attachments, new { disabled = true, @class = "form-control" })
+                @Html.TextBoxFor(model => model.AttachmentFile, new { type = "file", accept = "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="openDialog btn btn-default btn-success" />
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.UpdateRequestCommand.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.UpdateRequestCommand.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.Description, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.UpdateRequestCommand.RaisedDate, "Raised Date", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.UpdateRequestCommand.RaisedDate, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.RaisedDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.UpdateRequestCommand.DueDate, "Due Date", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.UpdateRequestCommand.DueDate, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.DueDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.UpdateRequestCommand.StatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.UpdateRequestCommand.StatusId, new SelectList(
-                Model.RequestStatuses, "Id", "Description", Model.SelectedRequestStatus),
-                new { @class = "form-control" })
-
-            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.StatusId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.UpdateRequestCommand.Attachments, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.UpdateRequestCommand.Attachments, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.Attachments, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="openDialog btn btn-default btn-success" />
-        </div>
-    </div>
-</div>
 }
 
 <div>

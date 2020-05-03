@@ -1,6 +1,8 @@
-﻿using RequestsManagementSystem.Models;
+﻿using RequestsManagementSystem.Internal;
+using RequestsManagementSystem.Models;
 using RMS.Application.Commands.RequestBC;
 using RMS.Application.Queries.RequestBC;
+using RMS.Core;
 using RMS.Messages;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,14 @@ namespace RequestsManagementSystem.Controllers
 {
     public class HomeController : AppController
     {
-        public HomeController(IBus bus) : base(bus)
+        private readonly ITypeAdapter _typeAdapter;
+        private readonly IUploadDownloadService _uploadDownloadService;
+        public HomeController(IBus bus, ITypeAdapter typeAdapter, IUploadDownloadService uploadDownloadService) : base(bus)
         {
-        }
+            _typeAdapter = typeAdapter;
+            _uploadDownloadService = uploadDownloadService;
 
+        }
         public ActionResult Index()
         {
             return View();
@@ -90,9 +96,14 @@ namespace RequestsManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _bus.ExecuteAsync(model.AddRequestCommand);
+                var command = _typeAdapter.Adapt<UpdateRequest>(model.AddRequestCommand);
+                command.Id = await _bus.ExecuteAsync(model.AddRequestCommand);
+                command.Attachments += "; " + _uploadDownloadService.UploadNewAttachment(command.Id, model.AttachmentFile);
+                command.Attachments = command.Attachments.TrimStart(new[] { ';', ' ' });
+                await _bus.ExecuteAsync(command);
                 return RedirectToAction("Index");
             }
+            model.RequestStatuses = await _bus.QueryAsync(new GetRequestStatuses());
             return View(model);
         }
 
@@ -108,20 +119,9 @@ namespace RequestsManagementSystem.Controllers
                 return HttpNotFound();
             }
 
-            var statuses = await _bus.QueryAsync(new GetRequestStatuses());
+            var statuses = await _bus.QueryAsync(new GetRequestStatuses());            
 
-            var updateCommand = new UpdateRequest
-            {
-                Id = request.Id,
-                Name = request.Name,
-                Description = request.Description,
-                RaisedDate = request.RaisedDate,
-                DueDate = request.DueDate,
-                StatusId = request.StatusId,
-                StatusName = request.StatusName,
-                StatusDescription = request.StatusDescription,
-                Attachments = request.Attachments
-            };
+            var updateCommand = _typeAdapter.Adapt<UpdateRequest>(request);
 
             var selectedStatus = statuses.Select((s, i) => new { s, i })
                 .FirstOrDefault(x => x.s.Id.ToString().Equals(request.StatusId.ToString()))?.i + 1 ?? 1;
@@ -140,9 +140,15 @@ namespace RequestsManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _bus.ExecuteAsync(model.UpdateRequestCommand);
+                var command = model.UpdateRequestCommand;
+                command.Attachments += "; " + _uploadDownloadService.UploadNewAttachment(command.Id, model.AttachmentFile);
+                command.Attachments = command.Attachments.TrimStart(new[] { ';', ' ' });
+                await _bus.ExecuteAsync(command);
                 return RedirectToAction("Index");
             }
+            model.RequestStatuses = await _bus.QueryAsync(new GetRequestStatuses());
+            model.SelectedRequestStatus = model.RequestStatuses.Select((s, i) => new { s, i })
+                .FirstOrDefault(x => x.s.Id.ToString().Equals(model.UpdateRequestCommand.StatusId.ToString()))?.i + 1 ?? 1;
             return View(model);
         }
 
@@ -165,6 +171,7 @@ namespace RequestsManagementSystem.Controllers
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
             await _bus.ExecuteAsync(new DeleteRequest { Id = id });
+            _uploadDownloadService.CleanAttachmentsOwnedBy(id);
             return RedirectToAction("Index");
         }
     }
