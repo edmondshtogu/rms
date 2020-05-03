@@ -1,59 +1,68 @@
-﻿@model RMS.Core.PaginatedItemsResult<RMS.Application.Queries.RequestBC.GetRequestResult>
+﻿@model IEnumerable<RMS.Application.Queries.RequestBC.GetRequestResult>
 
 @{
     ViewBag.Title = "Home Page";
 }
-
-<h2>Requests</h2>
+<h3>Requests</h3>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            Raised Date
-        </th>
-        <th>
-            Due Date
-        </th>
-        <th>
-            Status
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model.Data)
-    {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Description)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.RaisedDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.DueDate)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.StatusName)
-    </td>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-        @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-        @Html.ActionLink("Download", "Download", new { id = item.Id })
-    </td>
-</tr>
-    }
-
-</table>
+<div class="span12">
+    <table class="table table-striped" id="datatab">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RaisedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DueDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StatusName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Attachments)
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RaisedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DueDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StatusName)
+                </th>
+                <th>
+                    @Html.ActionLink("Download", "Download", new { id = "item.Id" })
+                </th>
+                <th>
+                    @Html.ActionLink("Edit", "Edit", new { id = "item.Id" }) |
+                    @Html.ActionLink("Details", "Details", new { id = "item.Id" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = "item.Id" })
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
