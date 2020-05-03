@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Request</h4>
+    <h3>Request</h3>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
@@ -77,14 +77,14 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" value="Save" class="openDialog btn btn-default btn-success" />
         </div>
     </div>
 </div>
 }
 
 <div>
-    <a href="@Url.Action("Index", "Home")" class="btn btn-info">
+    <a href="@Url.Action("Index", "Home")" class="openDialog btn btn-default btn-info">
         <i class="fa fa-arrow-left"></i> Back to List
     </a>
 </div>

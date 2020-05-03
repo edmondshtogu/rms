@@ -6,7 +6,9 @@
 <h3>Requests</h3>
 
 <p>
-    @Html.ActionLink("Create New", "Create", null, htmlAttributes: new { @class = "btn btn-primary btn-large" })
+    <a href="@Url.Action("Index", "Create")" class="openDialog btn btn-default btn-primary">
+        <i class="fa fa-plus"></i> Create New
+    </a>
 </p>
 
 <div class="span12">

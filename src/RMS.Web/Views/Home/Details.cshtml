@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Request</h4>
+    <h3>Request</h3>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -61,6 +61,8 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, htmlAttributes: new { @class = "openDialog btn btn-default btn-warning" } ) |
+    <a href="@Url.Action("Index", "Home")" class="openDialog btn btn-default btn-info">
+        <i class="fa fa-arrow-left"></i> Back to List
+    </a>
 </p>
