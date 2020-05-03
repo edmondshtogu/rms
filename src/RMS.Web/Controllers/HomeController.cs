@@ -76,25 +76,24 @@ namespace RequestsManagementSystem.Controllers
             return View(request);
         }
 
-        // GET: Todos/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            return View(new CreateRequestViewModel()
+            {
+                RequestStatuses = await _bus.QueryAsync(new GetRequestStatuses())
+            });
         }
 
-        // POST: Todos/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(AddRequest command)
+        public async Task<ActionResult> Create(CreateRequestViewModel model)
         {
             if (ModelState.IsValid)
             {
-                await _bus.ExecuteAsync(command);
+                await _bus.ExecuteAsync(model.AddRequestCommand);
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(model);
         }
 
         public async Task<ActionResult> Edit(Guid id)
@@ -108,19 +107,43 @@ namespace RequestsManagementSystem.Controllers
             {
                 return HttpNotFound();
             }
-            return View(request);
+
+            var statuses = await _bus.QueryAsync(new GetRequestStatuses());
+
+            var updateCommand = new UpdateRequest
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Description = request.Description,
+                RaisedDate = request.RaisedDate,
+                DueDate = request.DueDate,
+                StatusId = request.StatusId,
+                StatusName = request.StatusName,
+                StatusDescription = request.StatusDescription,
+                Attachments = request.Attachments
+            };
+
+            var selectedStatus = statuses.Select((s, i) => new { s, i })
+                .FirstOrDefault(x => x.s.Id.ToString().Equals(request.StatusId.ToString()))?.i + 1 ?? 1;
+
+            return View(new UpdateRequestViewModel()
+            {
+                UpdateRequestCommand = updateCommand,
+                SelectedRequestStatus = selectedStatus,
+                RequestStatuses = statuses
+            });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(UpdateRequest command)
+        public async Task<ActionResult> Edit(UpdateRequestViewModel model)
         {
             if (ModelState.IsValid)
             {
-                await _bus.ExecuteAsync(command);
+                await _bus.ExecuteAsync(model.UpdateRequestCommand);
                 return RedirectToAction("Index");
             }
-            return View(command);
+            return View(model);
         }
 
         public async Task<ActionResult> Delete(Guid id)

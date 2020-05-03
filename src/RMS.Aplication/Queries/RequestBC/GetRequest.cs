@@ -17,16 +17,19 @@ namespace RMS.Application.Queries.RequestBC
 
         public string Description { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy hh:mm}")]
-        [DataType(DataType.DateTime)]
+        [Display(Name = "Raised Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd hh:mm}")]
+        [DataType(DataType.DateTime), Required]
         public DateTime RaisedDate { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy hh:mm}")]
-        [DataType(DataType.DateTime)]
+        [Display(Name = "Due Date")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd hh:mm}")]
+        [DataType(DataType.DateTime), Required]
         public DateTime DueDate { get; set; }
 
         public Guid StatusId { get; set; }
 
+        [Display(Name = "Setatus")]
         public string StatusName { get; set; }
 
         public string StatusDescription { get; set; }

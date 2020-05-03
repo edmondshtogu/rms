@@ -1,11 +1,9 @@
-﻿using RMS.Core;
-using RMS.Messages;
+﻿using RMS.Messages;
+using System.Collections.Generic;
 
 namespace RMS.Application.Queries.RequestBC
 {
-    public sealed class GetRequestStatuses : IQuery<PaginatedItemsResult<GetRequestStatusResult>>
+    public sealed class GetRequestStatuses : IQuery<IEnumerable<GetRequestStatusResult>>
     {
-        public int PageIndex { get; set; }
-        public int PageSize { get; set; }
     }
 }

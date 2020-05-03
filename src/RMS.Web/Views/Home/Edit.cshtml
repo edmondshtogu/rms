@@ -1,4 +1,4 @@
-﻿@model RMS.Application.Queries.RequestBC.GetRequestResult
+﻿@model RequestsManagementSystem.Models.UpdateRequestViewModel
 
 @{
     ViewBag.Title = "Edit";
@@ -15,63 +15,56 @@
     <h3>Request</h3>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.UpdateRequestCommand.Id)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.UpdateRequestCommand.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.UpdateRequestCommand.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.Name, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.UpdateRequestCommand.Description, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.UpdateRequestCommand.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.Description, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.RaisedDate, "Raised Date", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.UpdateRequestCommand.RaisedDate, "Raised Date", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.RaisedDate, "{0:dd-MM-yyyyThh:mm}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-            @Html.ValidationMessageFor(model => model.RaisedDate, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.UpdateRequestCommand.RaisedDate, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.RaisedDate, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.DueDate, "Due Date", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.UpdateRequestCommand.DueDate, "Due Date", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DueDate, "{0:dd-MM-yyyyThh:mm}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-            @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.UpdateRequestCommand.DueDate, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.DueDate, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.StatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.UpdateRequestCommand.StatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.StatusId, new SelectList(
-                new List<Object>{
-                     new { value = "BA77E16E-8513-4FAF-A14A-F55FDFC7E3C2" , text = "Request Registered"  },
-                     new { value = "CEA7743F-1D82-4215-8B67-C045EEECF525" , text = "Request In Process"  },
-                     new { value = "6A700CF2-671C-4494-8389-A372EBF8BD19" , text = "Request Completed"  }
-                  },
-                "value",
-                "text",
-                2),
-                new { htmlAttributes = new { @class = "form-control" } })
+            @Html.DropDownListFor(model => model.UpdateRequestCommand.StatusId, new SelectList(
+                Model.RequestStatuses, "Id", "Description", Model.SelectedRequestStatus),
+                new { @class = "form-control" })
 
-            @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.StatusId, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.UpdateRequestCommand.Attachments, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Attachments, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Attachments, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.UpdateRequestCommand.Attachments, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.UpdateRequestCommand.Attachments, "", new { @class = "text-danger" })
         </div>
     </div>
 

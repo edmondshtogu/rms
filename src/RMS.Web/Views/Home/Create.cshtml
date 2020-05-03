@@ -1,4 +1,4 @@
-﻿@model RMS.Application.Commands.RequestBC.AddRequest
+﻿@model RequestsManagementSystem.Models.CreateRequestViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -16,66 +16,58 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.AddRequestCommand.Name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.AddRequestCommand.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AddRequestCommand.Name, "Name is required!", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.AddRequestCommand.Description, "Description", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.AddRequestCommand.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AddRequestCommand.Description, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.RaisedDate, "Raised Date", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.AddRequestCommand.RaisedDate, "Raised Date", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.RaisedDate, "{0:dd-MM-yyyyThh:mm:ss}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-            @Html.ValidationMessageFor(model => model.RaisedDate, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.AddRequestCommand.RaisedDate, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+            @Html.ValidationMessageFor(model => model.AddRequestCommand.RaisedDate, "The Raised Date field is required.", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.DueDate, "Due Date", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.AddRequestCommand.DueDate, "Due Date", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DueDate, "{0:dd-MM-yyyyThh:mm:ss}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-            @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.AddRequestCommand.DueDate, "{0:yyyy-MM-ddThh:mm}", new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
+            @Html.ValidationMessageFor(model => model.AddRequestCommand.DueDate, "The Due Date field is required.", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.StatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.AddRequestCommand.StatusId, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.StatusId, new SelectList(
-                new List<Object>{
-                     new { value = "BA77E16E-8513-4FAF-A14A-F55FDFC7E3C2" , text = "Request Registered"  },
-                     new { value = "CEA7743F-1D82-4215-8B67-C045EEECF525" , text = "Request In Process"  },
-                     new { value = "6A700CF2-671C-4494-8389-A372EBF8BD19" , text = "Request Completed"  }
-                  },
-                "value",
-                "text",
-                2),
-                new { htmlAttributes = new { @class = "form-control" } })
-
-            @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+            @Html.DropDownListFor(model => model.AddRequestCommand.StatusId, new SelectList(
+                Model.RequestStatuses, "Id", "Description", 1),
+                new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.AddRequestCommand.StatusId, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Attachments, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.AddRequestCommand.Attachments, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Attachments, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Attachments, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.AddRequestCommand.Attachments, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.AddRequestCommand.Attachments, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <input type="submit" value="Create" class="openDialog btn btn-default btn-success" />
         </div>
     </div>
 </div>

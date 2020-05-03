@@ -186,6 +186,8 @@
     <Compile Include="App_Start\FontAwesomeBundleConfig.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\UpdateRequestViewModel.cs" />
+    <Compile Include="Models\CreateRequestViewModel.cs" />
     <Compile Include="Models\DatatablesViewModel.cs" />
     <Compile Include="Extentions\EngineExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -238,6 +240,9 @@
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />

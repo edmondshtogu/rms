@@ -2,33 +2,29 @@
 using RMS.Core.Domain;
 using RMS.Core.Domain.RequestBC;
 using RMS.Messages;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace RMS.Application.Queries.RequestBC.Handlers
 {
-    public sealed class GetRequestStatusesHandler : IQueryHandler<GetRequestStatuses, PaginatedItemsResult<GetRequestStatusResult>>
+    public sealed class GetRequestStatusesHandler : IQueryHandler<GetRequestStatuses, IEnumerable<GetRequestStatusResult>>
     {
         private readonly IRequestStatusRepository _repository;
-        private readonly IPaginationService _paginationService;
+        private readonly ITypeAdapter _typeAdapter;
 
-        public GetRequestStatusesHandler(IRequestStatusRepository repository,
-                                  IPaginationService paginationService)
+        public GetRequestStatusesHandler(IRequestStatusRepository repository, ITypeAdapter typeAdapter)
         {
             _repository = repository;
-            _paginationService = paginationService;
+            _typeAdapter = typeAdapter;
         }
 
-        public async Task<Result<PaginatedItemsResult<GetRequestStatusResult>>> HandleAsync(GetRequestStatuses queryModel)
+        public async Task<Result<IEnumerable<GetRequestStatusResult>>> HandleAsync(GetRequestStatuses queryModel)
         {
-            var baseQuery = _repository.AsNoTracking();
+            var data = _repository.GetAll();
 
-            var result = await Task.Run(() => _paginationService.Paginate<GetRequestStatusResult, RequestStatus>
-                                (
-                                    baseQuery,
-                                    "Name asc",
-                                    queryModel.PageIndex,
-                                    queryModel.PageSize
-                                ));
+            var result = await Task.Run(
+                () => _typeAdapter.Adapt<IEnumerable<GetRequestStatusResult>>(data)
+            );
 
             return Result.Ok(result);
         }
