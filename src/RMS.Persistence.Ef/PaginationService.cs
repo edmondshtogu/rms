@@ -3,7 +3,7 @@ using RMS.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
+using System.Linq.Dynamic;
 
 namespace RMS.Persistence.Ef
 {
@@ -18,11 +18,12 @@ namespace RMS.Persistence.Ef
             _options = options;
         }
 
-        public PaginatedItemsResult<TItemResult> Paginate<TItemResult, TSource, TKey>(
+        public PaginatedItemsResult<TItemResult> Paginate<TItemResult, TSource>(
             IQueryable<TSource> source,
-            Expression<Func<TSource, TKey>> orderBy,
+            string orderByString,
             int pageIndex,
-            int pageSize)
+            int pageSize,
+            Func<TSource, bool> filter = null)
             where TItemResult : class
             where TSource : BaseEntity
         {
@@ -35,7 +36,14 @@ namespace RMS.Persistence.Ef
 
             var count = source.LongCount();
 
-            var data = source.OrderBy(orderBy)
+            if (filter != null)
+            {
+                source = source.Where(filter).AsQueryable();
+            }
+
+            var filteredCount = source.Count();
+
+            var data = source.OrderBy(orderByString)
                 .Skip(pageIndex * pageSize)
                 .Take(pageSize)
                 .ToList();
@@ -44,7 +52,8 @@ namespace RMS.Persistence.Ef
                 (
                     _typeAdapter.Adapt<IEnumerable<TItemResult>>(data),
                     (int)Math.Floor((decimal)count / pageSize),
-                    count
+                    count,
+                    filteredCount
                 );
         }
     }

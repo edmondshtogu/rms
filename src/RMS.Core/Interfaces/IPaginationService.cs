@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace RMS.Core
 {
@@ -16,32 +15,35 @@ namespace RMS.Core
         /// </summary>
         /// <typeparam name="TItemResult">The type of the item result.</typeparam>
         /// <typeparam name="TSource">The type of the source.</typeparam>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <param name="source">The source.</param>
-        /// <param name="orderBy">The order by.</param>
+        /// <param name="orderByString">The order by string.</param>
         /// <param name="pageIndex">Current page index (0 based)</param>
         /// <param name="pageSize">Number of rows per page</param>
+        /// <param name="filter">The search filter.</param>
         /// <returns></returns>
-        PaginatedItemsResult<TItemResult> Paginate<TItemResult, TSource, TKey>(
+        PaginatedItemsResult<TItemResult> Paginate<TItemResult, TSource>(
             IQueryable<TSource> source,
-            Expression<Func<TSource, TKey>> orderBy,
+            string orderByString,
             int pageIndex,
-            int pageSize) 
+            int pageSize,
+            Func<TSource, bool> filter = null)
             where TItemResult : class
             where TSource : BaseEntity;
     }
 
     public class PaginatedItemsResult<TItemResult> where TItemResult : class
     {
-        public PaginatedItemsResult(IEnumerable<TItemResult> data, int totalPages, long count)
+        public PaginatedItemsResult(IEnumerable<TItemResult> data, int totalPages, long count, long filteredCount)
         {
             TotalPages = totalPages;
             Count = count;
             Data = data;
+            FilteredCount = filteredCount;
         }
 
         public int TotalPages { get; private set; }
         public long Count { get; private set; }
+        public long FilteredCount { get; private set; }
         public IEnumerable<TItemResult> Data { get; private set; }
     }
 }

@@ -22,10 +22,10 @@ namespace RMS.Application.Queries.RequestBC.Handlers
         {
             var baseQuery = _repository.AsNoTracking();
 
-            var result = await Task.Run(() => _paginationService.Paginate<GetRequestStatusResult, RequestStatus, string>
+            var result = await Task.Run(() => _paginationService.Paginate<GetRequestStatusResult, RequestStatus>
                                 (
                                     baseQuery,
-                                    item => item.Name,
+                                    "Name asc",
                                     queryModel.PageIndex,
                                     queryModel.PageSize
                                 ));

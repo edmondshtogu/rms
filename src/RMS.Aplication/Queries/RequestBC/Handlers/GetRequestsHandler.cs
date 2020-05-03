@@ -21,16 +21,46 @@ namespace RMS.Application.Queries.RequestBC.Handlers
         public async Task<Result<PaginatedItemsResult<GetRequestResult>>> HandleAsync(GetRequests queryModel)
         {
             var baseQuery = _repository.AsNoTracking();
+            var columnFilters = queryModel.ColumnFilters;
+            var search = queryModel.SearchString?.Trim();
 
-            var result = await Task.Run(() => _paginationService.Paginate<GetRequestResult, Request, string>
+            var result = await Task.Run(() => _paginationService.Paginate<GetRequestResult, Request>
                                 (
                                     baseQuery,
-                                    item => item.Name,
+                                    queryModel.OrderByString,
                                     queryModel.PageIndex,
-                                    queryModel.PageSize
+                                    queryModel.PageSize,
+                                    filter
                                 ));
 
             return Result.Ok(result);
+
+            bool filter(Request r)
+            {
+                var containsSearch = !(
+                    search != null 
+                    && (r.Name == null || !r.Name.ToLower().Contains(search.ToLower())) 
+                    && (r.Description == null || !r.Description.ToLower().Contains(search.ToLower())) 
+                    && (r.RaisedDate.ToString("dd-MM-yyyy hh:mm") == null 
+                        || !r.RaisedDate.ToString("dd-MM-yyyy hh:mm").ToLower().Contains(search.ToLower())) 
+                    && (r.DueDate.ToString("dd-MM-yyyy hh:mm") == null 
+                        || !r.DueDate.ToString("dd-MM-yyyy hh:mm").ToLower().Contains(search.ToLower()))
+               );
+
+                var containsColFilter = 
+                    (columnFilters[0] == null || 
+                     (r.Name != null && r.Name.ToLower().Contains(columnFilters[0].ToLower())))
+                 && (columnFilters[1] == null || 
+                     (r.Description != null && r.Description.ToLower().Contains(columnFilters[1].ToLower())))
+                 && (columnFilters[2] == null || 
+                     (r.RaisedDate.ToString("dd-MM-yyyy hh:mm") != null 
+                      && r.RaisedDate.ToString("dd-MM-yyyy hh:mm").ToLower().Contains(columnFilters[2].ToLower())))
+                 && (columnFilters[3] == null || 
+                     (r.DueDate.ToString("dd-MM-yyyy hh:mm") != null 
+                      && r.DueDate.ToString("dd-MM-yyyy hh:mm").ToLower().Contains(columnFilters[3].ToLower())));
+
+                return containsSearch && containsColFilter;
+            }            
         }
     }
 }

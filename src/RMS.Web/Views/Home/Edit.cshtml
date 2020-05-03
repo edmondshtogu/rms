@@ -84,7 +84,9 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a href="@Url.Action("Index", "Home")" class="btn btn-info">
+        <i class="fa fa-arrow-left"></i> Back to List
+    </a>
 </div>
 
 @section Scripts {

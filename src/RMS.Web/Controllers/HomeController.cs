@@ -1,7 +1,10 @@
-﻿using RMS.Application.Commands.RequestBC;
+﻿using RequestsManagementSystem.Models;
+using RMS.Application.Commands.RequestBC;
 using RMS.Application.Queries.RequestBC;
 using RMS.Messages;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -14,15 +17,44 @@ namespace RequestsManagementSystem.Controllers
         {
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var requests = await _bus.QueryAsync(new GetRequests()
-            {
-                PageIndex = 0,
-                PageSize = 20
-            });
+            return View();
+        }
 
-            return View(requests);
+        [HttpPost]
+        public async Task<JsonResult> DataHandler(DTParameters requestModel)
+        {
+            try
+            {
+                var columnSearch = new List<string>();
+
+                foreach (var col in requestModel.Columns)
+                {
+                    columnSearch.Add(col.Search.Value);
+                }
+
+                var requests = await _bus.QueryAsync(new GetRequests()
+                {
+                    OrderByString = requestModel.SortOrder,
+                    SearchString = requestModel.Search.Value,
+                    ColumnFilters = columnSearch.ToArray(),
+                    PageIndex = requestModel.Start / requestModel.Length,
+                    PageSize = requestModel.Length
+                });
+
+                return Json(new DTResult<GetRequestResult>
+                {
+                    draw = requestModel.Draw,
+                    data = requests.Data.ToList(),
+                    recordsFiltered = (int)requests.FilteredCount,
+                    recordsTotal = (int)requests.Count
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
         }
 
         public async Task<ActionResult> Details(Guid id)
