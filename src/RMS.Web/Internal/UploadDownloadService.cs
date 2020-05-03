@@ -1,5 +1,8 @@
 ﻿using RMS.Core;
 using System;
+using System.IO;
+using System.IO.Compression;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace RequestsManagementSystem.Internal
@@ -15,38 +18,74 @@ namespace RequestsManagementSystem.Internal
             _appConfig = appConfig;
         }
 
-        public void CleanAttachmentsOwnedBy(Guid ownerId)
+        public async Task CleanAttachmentsOwnedByAsync(Guid ownerId)
         {
-            var storagePath = _fileProvider.MapPath(_appConfig.StoragePath);
+            await Task.Run(() =>
+            {
+                var storagePath = _fileProvider.MapPath(_appConfig.StoragePath);
 
-            storagePath = _fileProvider.Combine(storagePath, ownerId.ToString());
+                storagePath = _fileProvider.Combine(storagePath, ownerId.ToString());
 
-            _fileProvider.DeleteDirectory(storagePath);
+                _fileProvider.DeleteDirectory(storagePath);
+            });
         }
 
-        public string UploadNewAttachment(Guid ownerId, HttpPostedFileBase postedFileBase)
+        public async Task<string> UploadNewAttachmentAsync(Guid ownerId, HttpPostedFileBase postedFileBase)
         {
-            //Use Namespace called :  System.IO  
-            var fileName = _fileProvider.GetFileNameWithoutExtension(postedFileBase.FileName);
+            return await Task.Run(() =>
+            {
+                //Use Namespace called :  System.IO  
+                var fileName = _fileProvider.GetFileNameWithoutExtension(postedFileBase.FileName);
 
-            //To Get File Extension  
-            var fileExtension = _fileProvider.GetFileExtension(postedFileBase.FileName);
+                //To Get File Extension  
+                var fileExtension = _fileProvider.GetFileExtension(postedFileBase.FileName);
 
-            //Add Current Date To Attached File Name  
-            fileName = $"{DateTime.Now:yyyyMMddhhmmss}-{fileName.Trim()}{fileExtension}";
+                //Add Current Date To Attached File Name  
+                fileName = $"{DateTime.Now:yyyyMMddhhmmss}-{fileName.Trim()}{fileExtension}";
 
-            var storagePath = _fileProvider.MapPath(_appConfig.StoragePath);
+                var storagePath = _fileProvider.MapPath(_appConfig.StoragePath);
 
-            storagePath = _fileProvider.Combine(storagePath, ownerId.ToString());
+                storagePath = _fileProvider.Combine(storagePath, ownerId.ToString());
 
-            _fileProvider.CreateDirectory(storagePath);
+                _fileProvider.CreateDirectory(storagePath);
 
-            storagePath = _fileProvider.Combine(storagePath, fileName);
+                storagePath = _fileProvider.Combine(storagePath, fileName);
 
-            //To copy and save file into server.  
-            postedFileBase.SaveAs(storagePath);
+                //To copy and save file into server.  
+                postedFileBase.SaveAs(storagePath);
 
-            return _fileProvider.GetFileName(postedFileBase.FileName);
+                return _fileProvider.GetFileName(postedFileBase.FileName);
+            });
+        }
+
+        public async Task<(byte[] fileContents, string contentType, string fileName)> DownloadAttachmentsOwnedByAsync(Guid ownerId)
+        {
+            return await Task.Run(() =>
+            {
+                var fileName = "Attachments.zip";
+
+                var storagePath = _fileProvider.MapPath(_appConfig.StoragePath);
+
+                storagePath = _fileProvider.Combine(storagePath, ownerId.ToString());
+
+                _fileProvider.CreateDirectory(storagePath);
+
+                storagePath = _fileProvider.Combine(storagePath, fileName);
+
+                //////int CurrentFileID = Convert.ToInt32(FileID);  
+                var filesCol = _fileProvider.GetFiles(storagePath);
+                using (var memoryStream = new MemoryStream())
+                {
+                    using (var ziparchive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+                    {
+                        for (int i = 0; i < filesCol.Length; i++)
+                        {
+                            ziparchive.CreateEntryFromFile(filesCol[i], _fileProvider.GetFileName(filesCol[i]));
+                        }
+                    }
+                    return (memoryStream.ToArray(), "application/zip", fileName);
+                }
+            });
         }
     }
 }

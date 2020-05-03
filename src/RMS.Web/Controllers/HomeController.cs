@@ -23,6 +23,7 @@ namespace RequestsManagementSystem.Controllers
             _uploadDownloadService = uploadDownloadService;
 
         }
+
         public ActionResult Index()
         {
             return View();
@@ -98,7 +99,7 @@ namespace RequestsManagementSystem.Controllers
             {
                 var command = _typeAdapter.Adapt<UpdateRequest>(model.AddRequestCommand);
                 command.Id = await _bus.ExecuteAsync(model.AddRequestCommand);
-                command.Attachments += "; " + _uploadDownloadService.UploadNewAttachment(command.Id, model.AttachmentFile);
+                command.Attachments += "; " + await _uploadDownloadService.UploadNewAttachmentAsync(command.Id, model.AttachmentFile);
                 command.Attachments = command.Attachments.TrimStart(new[] { ';', ' ' });
                 await _bus.ExecuteAsync(command);
                 return RedirectToAction("Index");
@@ -141,7 +142,7 @@ namespace RequestsManagementSystem.Controllers
             if (ModelState.IsValid)
             {
                 var command = model.UpdateRequestCommand;
-                command.Attachments += "; " + _uploadDownloadService.UploadNewAttachment(command.Id, model.AttachmentFile);
+                command.Attachments += "; " + await _uploadDownloadService.UploadNewAttachmentAsync(command.Id, model.AttachmentFile);
                 command.Attachments = command.Attachments.TrimStart(new[] { ';', ' ' });
                 await _bus.ExecuteAsync(command);
                 return RedirectToAction("Index");
@@ -166,12 +167,25 @@ namespace RequestsManagementSystem.Controllers
             return View(request);
         }
 
+        public async Task<ActionResult> Download(Guid id)
+        {
+            var request = await _bus.QueryAsync(new GetRequest { Id = id });
+            if (request == null)
+            {
+                return HttpNotFound();
+            }
+
+            var (fileContents, contentType, fileName) = await _uploadDownloadService
+                .DownloadAttachmentsOwnedByAsync(id);
+            return File(fileContents, contentType, fileName);
+        }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(Guid id)
         {
             await _bus.ExecuteAsync(new DeleteRequest { Id = id });
-            _uploadDownloadService.CleanAttachmentsOwnedBy(id);
+            await _uploadDownloadService.CleanAttachmentsOwnedByAsync(id);
             return RedirectToAction("Index");
         }
     }
