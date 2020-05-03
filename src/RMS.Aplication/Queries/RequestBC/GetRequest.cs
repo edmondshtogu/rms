@@ -27,6 +27,16 @@ namespace RMS.Application.Queries.RequestBC
         [DataType(DataType.DateTime), Required]
         public DateTime DueDate { get; set; }
 
+        [Display(Name = "Created Date (UTC)")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd hh:mm}")]
+        [DataType(DataType.DateTime), Required]
+        public DateTime CreatedOnUtc { get; set; }
+
+        [Display(Name = "Updated Date (UTC)")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd hh:mm}")]
+        [DataType(DataType.DateTime), Required]
+        public DateTime UpdatedOnUtc { get; set; }
+
         public Guid StatusId { get; set; }
 
         [Display(Name = "Setatus")]

@@ -43,11 +43,27 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.CreatedOnUtc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOnUtc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedOnUtc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedOnUtc)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.StatusName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StatusName)
+            @Html.DisplayFor(model => model.StatusDescription)
         </dd>
 
         <dt>
@@ -61,7 +77,8 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, htmlAttributes: new { @class = "openDialog btn btn-default btn-warning" } ) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, htmlAttributes: new { @class = "openDialog btn btn-default btn-warning" }) |
+    @Html.ActionLink("Save As PDF", "DownloadPdfRequest", new { id = Model.Id }, htmlAttributes: new { @class = "openDialog btn btn-default btn-info" }) |
     <a href="@Url.Action("Index", "Home")" class="openDialog btn btn-default btn-info">
         <i class="fa fa-arrow-left"></i> Back to List
     </a>

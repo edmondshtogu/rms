@@ -34,45 +34,34 @@ namespace RequestsManagementSystem.Internal
         {
             return await Task.Run(() =>
             {
-                //Use Namespace called :  System.IO  
+                if (postedFileBase == null) return string.Empty;
+
                 var fileName = _fileProvider.GetFileNameWithoutExtension(postedFileBase.FileName);
-
-                //To Get File Extension  
                 var fileExtension = _fileProvider.GetFileExtension(postedFileBase.FileName);
-
-                //Add Current Date To Attached File Name  
                 fileName = $"{DateTime.Now:yyyyMMddhhmmss}-{fileName.Trim()}{fileExtension}";
 
                 var storagePath = _fileProvider.MapPath(_appConfig.StoragePath);
-
                 storagePath = _fileProvider.Combine(storagePath, ownerId.ToString());
 
                 _fileProvider.CreateDirectory(storagePath);
 
                 storagePath = _fileProvider.Combine(storagePath, fileName);
 
-                //To copy and save file into server.  
                 postedFileBase.SaveAs(storagePath);
 
                 return _fileProvider.GetFileName(postedFileBase.FileName);
             });
         }
 
-        public async Task<(byte[] fileContents, string contentType, string fileName)> DownloadAttachmentsOwnedByAsync(Guid ownerId)
+        public async Task<byte[]> GetAttachmentsOwnedByAsync(Guid ownerId)
         {
             return await Task.Run(() =>
             {
-                var fileName = "Attachments.zip";
 
                 var storagePath = _fileProvider.MapPath(_appConfig.StoragePath);
 
                 storagePath = _fileProvider.Combine(storagePath, ownerId.ToString());
 
-                _fileProvider.CreateDirectory(storagePath);
-
-                storagePath = _fileProvider.Combine(storagePath, fileName);
-
-                //////int CurrentFileID = Convert.ToInt32(FileID);  
                 var filesCol = _fileProvider.GetFiles(storagePath);
                 using (var memoryStream = new MemoryStream())
                 {
@@ -83,7 +72,7 @@ namespace RequestsManagementSystem.Internal
                             ziparchive.CreateEntryFromFile(filesCol[i], _fileProvider.GetFileName(filesCol[i]));
                         }
                     }
-                    return (memoryStream.ToArray(), "application/zip", fileName);
+                    return memoryStream.ToArray();
                 }
             });
         }

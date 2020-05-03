@@ -50,8 +50,10 @@
   <ItemGroup>
     <Compile Include="Commands\RequestBC\AddRequest.cs" />
     <Compile Include="Commands\RequestBC\AddRequestStatus.cs" />
+    <Compile Include="Commands\RequestBC\CheckIfRequestExist.cs" />
     <Compile Include="Commands\RequestBC\DeleteRequest.cs" />
     <Compile Include="Commands\RequestBC\DeleteRequestStatus.cs" />
+    <Compile Include="Commands\RequestBC\Handlers\CheckIfRequestExistHandler.cs" />
     <Compile Include="Commands\RequestBC\Handlers\AddRequestHandler.cs" />
     <Compile Include="Commands\RequestBC\Handlers\AddRequestStatusHandler.cs" />
     <Compile Include="Commands\RequestBC\Handlers\DeleteRequestHandler.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="Commands\RequestBC\Handlers\UpdateRequestStatusHandler.cs" />
     <Compile Include="Commands\RequestBC\UpdateRequest.cs" />
     <Compile Include="Commands\RequestBC\UpdateRequestStatus.cs" />
+    <Compile Include="Commands\RequestBC\Validators\CheckIfRequestExist.cs" />
     <Compile Include="Commands\RequestBC\Validators\AddRequestValidator.cs" />
     <Compile Include="Commands\RequestBC\Validators\AddRequestStatusValidator.cs" />
     <Compile Include="Commands\RequestBC\Validators\DeleteRequestValidator.cs" />

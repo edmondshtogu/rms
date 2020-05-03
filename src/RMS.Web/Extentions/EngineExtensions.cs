@@ -100,10 +100,11 @@ namespace RequestsManagementSystem.Extentions
             });
         }
 
-        public static void AddUploadDownloadService(this IEngine engine)
+        public static void AddInternalServices(this IEngine engine)
         {
             engine.Register(builder =>
             {
+                builder.RegisterType<PdfService>().As<IPdfService>().InstancePerLifetimeScope();
                 builder.RegisterType<UploadDownloadService>().As<IUploadDownloadService>().InstancePerLifetimeScope();
             });
         }

@@ -188,6 +188,9 @@
     <Compile Include="App_Start\FontAwesomeBundleConfig.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Internal\IPdfService.cs" />
+    <Compile Include="Internal\PdfLibrary.cs" />
+    <Compile Include="Internal\PdfService.cs" />
     <Compile Include="Mapping\MapCommandsAndQueries.cs" />
     <Compile Include="Internal\UploadDownloadService.cs" />
     <Compile Include="Internal\IUploadDownloadService.cs" />

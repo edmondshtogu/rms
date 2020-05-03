@@ -10,6 +10,6 @@ namespace RequestsManagementSystem.Internal
 
         Task CleanAttachmentsOwnedByAsync(Guid ownerId);
 
-        Task<(byte[] fileContents, string contentType, string fileName)> DownloadAttachmentsOwnedByAsync(Guid ownerId);
+        Task<byte[]> GetAttachmentsOwnedByAsync(Guid ownerId);
     }
 }
